@@ -1,0 +1,55 @@
+
+* crie a Estrutura de pastas (tudo novo, pastas e arquivos do path)
+1)src ->app->controllers;
+2)src ->app->models;
+3)src ->config->database.js;
+4)src ->database->migrations;
+
+*COMANDO = yarn add sequelize
+OBJETIVO = incluir a dependencia no projeto.
+
+*COMANDO = yarn add sequelize-cli -D
+OBJETIVO = interface de linha de comando. ou seja, reconhece comandos no terminal para facilitar o uso do sequilize.
+
+* crie o arquivo sequelizerc e especifique o formato javascript no plain text (canto inferior direito do Vs Code).
+Obs: esse arquivo deve utilizar a notação commonjs.(import por require)
+
+=== postegress
+*COMANDO = yarn add pg pg-hstore
+OBJETIVO = Para utilizar o dialect postgres, segundo a documentação do sequelize (https://sequelize.org/master/manual/dialects.html#postgresql), 
+temos que importar essa dependencia.
+===
+
+* no arquivo src->config->database.js, devemos informar alguns parametros de configuração
+module.exports = {
+  dialect: 'postgres',
+  host: 'localhost',
+  username: 'postgres',
+  password: 'docker',
+  database: 'gobarber',
+  define: {
+    timestamps: true, // cria log de data de alteracao/ criacao do registro
+    underscored: true, // cria tabelas do banco no padrao: teste_teste.
+    underscoredAll: true // cria colunas no mesmo padão: teste_teste
+  }
+};
+
+
+====== migrations =====
+*COMANDO = yarn sequelize migration:create --name=create-users
+OBJETIVO = cria uma nova migration que esta criando a tabela de usuários.
+Obs: note que foi criado o arquivo de migration com os 2 metodos:
+- up, para quando a migration for executada
+- down para quandi for feito o rollback;
+
+*COMANDO = yarn sequelize db:migrate
+OBJETIVO = cria a tabela dentro da base de dados.
+
+
+
+
+
+
+
+
+

@@ -13,11 +13,11 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module'
   },
-  // plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint'],
   rules: {
     'class-methods-use-this': 'off',
-    'no-param-reassign': 'off',   
-    'camelcase': 'off',
-    'no-unused-vars': ['error', { 'argsIgnorePattern': 'next' }]
+    'no-param-reassign': 'off',
+    camelcase: 'off',
+    'no-unused-vars': ['error', { argsIgnorePattern: 'next' }]
   }
 };
