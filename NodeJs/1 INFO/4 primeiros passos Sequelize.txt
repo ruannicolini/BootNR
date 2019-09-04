@@ -45,6 +45,12 @@ Obs: note que foi criado o arquivo de migration com os 2 metodos:
 *COMANDO = yarn sequelize db:migrate
 OBJETIVO = cria a tabela dentro da base de dados.
 
+*COMANDO = yarn sequelize db:migrate:undo
+OBJETIVO = desfaz a ultima migration.
+
+*COMANDO = yarn sequelize db:migrate:undo:all
+OBJETIVO = desfaz todas as migrations.
+
 
 
 
