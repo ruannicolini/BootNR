@@ -5,5 +5,4 @@ const routes = new Router();
 
 routes.post('/users', UserController.store);
 
-// module.exports = routes;
 export default routes;
