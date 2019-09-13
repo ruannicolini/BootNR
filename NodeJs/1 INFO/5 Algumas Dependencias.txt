@@ -1,0 +1,7 @@
+
+*yarn add bcryptjs
+Para gerar hash
+
+*yarn add jsonwebtoken
+gera token JWT
+
