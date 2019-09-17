@@ -5,3 +5,6 @@ Para gerar hash
 *yarn add jsonwebtoken
 gera token JWT
 
+*yarn add yup
+Faz validaçoes
+
