@@ -18,7 +18,7 @@ Which framework does your project use? // o projeto vai utilizar react ou vue?
 R= None of these;
 
 Does your project use typescript?
-R= y
+R= n
 
 where does your code run? 
 Desmarque "browser" utilizando a barra de espaço e selecione node.
