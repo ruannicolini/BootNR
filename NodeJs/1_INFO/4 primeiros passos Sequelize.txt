@@ -11,7 +11,7 @@ OBJETIVO = incluir a dependencia no projeto.
 *COMANDO = yarn add sequelize-cli -D
 OBJETIVO = interface de linha de comando. ou seja, reconhece comandos no terminal para facilitar o uso do sequilize.
 
-* crie o arquivo sequelizerc e especifique o formato javascript no plain text (canto inferior direito do Vs Code).
+* crie o arquivo .sequelizerc e especifique o formato javascript no plain text (canto inferior direito do Vs Code).
 Obs: esse arquivo deve utilizar a notação commonjs.(import por require)
 
 === postegress
@@ -35,7 +35,7 @@ module.exports = {
 };
 
 
-====== migrations =====
+====== CRIAÇÃO DE MIGRATIONS =====
 *COMANDO = yarn sequelize migration:create --name=create-users
 OBJETIVO = cria uma nova migration que esta criando a tabela de usuários.
 Obs: note que foi criado o arquivo de migration com os 2 metodos:
