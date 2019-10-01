@@ -10,4 +10,6 @@ routes.post('/teste', async (req, res, next) => {
 
 routes.post('/users', UserController.store);
 
+routes.put('/users', UserController.update);
+
 export default routes;
