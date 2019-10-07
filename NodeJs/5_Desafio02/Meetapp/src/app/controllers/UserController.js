@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
+import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import authConfig from '../../../src/config/auth';
 
 class UserController {
   async store(req, res) {
@@ -50,7 +52,6 @@ class UserController {
     const user = await User.findByPk(req.userId);
 
     console.log('id: ' + req.userId);
-    console.log(user);
     console.log('email: ' + email);
     console.log('user.email: ' + user.email);
 
@@ -65,15 +66,18 @@ class UserController {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    console.log('6');
-
-    const { id, name } = await user.update(req.body);
+    const { id, name, password } = await user.update(req.body);
 
     return res.json({
-      id,
-      name,
-      email,
-      password,
+      user: {
+        id,
+        name,
+        email,
+        password,
+      },
+      token: jwt.sign({ id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
+      }),
     });
   }
 }
