@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import authMiddleware from './app/middlewares/auth';
 const routes = new Router();
 
 import UserController from './app/controllers/UserController';
@@ -13,6 +14,6 @@ routes.post('/users', UserController.store);
 
 routes.post('/session', SessionController.store);
 
-routes.put('/users', UserController.update);
+routes.put('/users', authMiddleware, UserController.update);
 
 export default routes;
