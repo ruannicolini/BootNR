@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
+import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import authConfig from '../../../src/config/auth';
 
 class UserController {
   async store(req, res) {
@@ -10,7 +12,7 @@ class UserController {
         .required(),
       password: Yup.string()
         .required()
-        .min(6)
+        .min(6),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -38,7 +40,7 @@ class UserController {
         ),
       confirmPassword: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
-      )
+      ),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -48,6 +50,9 @@ class UserController {
     const { email, oldPassword } = req.body;
     const user = await User.findByPk(req.userId);
 
+    console.log(email);
+    console.log(user.email);
+
     if (!(email === user.email)) {
       const userExists = await User.findOne({ where: { email } });
       if (userExists) {
@@ -55,19 +60,38 @@ class UserController {
       }
     }
 
+    console.log('1');
+
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    const { id, name, provider } = await user.update(req.body);
+    console.log('2');
+
+    const { id, name, password, provider } = await user.update(req.body);
+
+    console.log('3');
 
     return res.json({
-      id,
-      name,
-      email,
-      password,
-      provider
+      user: {
+        id,
+        name,
+        email,
+        password,
+        provider,
+      },
+      token: jwt.sign({ id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
+      }),
     });
+
+    // return res.json({
+    //   id,
+    //   name,
+    //   email,
+    //   password,
+    //   provider,
+    // });
   }
 }
 
