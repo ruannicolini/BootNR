@@ -50,9 +50,6 @@ class UserController {
     const { email, oldPassword } = req.body;
     const user = await User.findByPk(req.userId);
 
-    console.log(email);
-    console.log(user.email);
-
     if (!(email === user.email)) {
       const userExists = await User.findOne({ where: { email } });
       if (userExists) {
@@ -60,17 +57,11 @@ class UserController {
       }
     }
 
-    console.log('1');
-
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    console.log('2');
-
     const { id, name, password, provider } = await user.update(req.body);
-
-    console.log('3');
 
     return res.json({
       user: {
@@ -84,14 +75,6 @@ class UserController {
         expiresIn: authConfig.expiresIn,
       }),
     });
-
-    // return res.json({
-    //   id,
-    //   name,
-    //   email,
-    //   password,
-    //   provider,
-    // });
   }
 }
 
