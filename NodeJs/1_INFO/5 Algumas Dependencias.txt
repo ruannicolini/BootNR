@@ -8,3 +8,5 @@ gera token JWT
 *yarn add yup
 Faz validaçoes
 
+*yarn add multer
+arquivos com formato multipart/form-data
