@@ -12,5 +12,5 @@ class FileController{
         return res.json(file);
     }
 }
-//01:30
+
 export default new FileController();
