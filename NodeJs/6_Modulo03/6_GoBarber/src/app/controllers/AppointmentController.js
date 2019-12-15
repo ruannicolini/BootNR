@@ -1,53 +1,91 @@
 import * as Yup from 'yup';
+import { startOfHour, parseISO, isBefore } from 'date-fns';
 import Appointment from '../models/Appointment';
 import User from '../models/User';
+import File from '../models/File';
+import { async } from '../../../../../../../../../AppData/Local/Microsoft/TypeScript/3.6/node_modules/rxjs/internal/scheduler/async';
 
 class AppointmentController{
-    async store (req, res) {
 
-        console.log('entrou');
+    async index(req, res){
+
+        const appointments = await Appointment.findAll({
+            where: { user_id: req.userId, canceled_at: null },
+            order: ['date'],
+            attributes : ['id','date'],
+            include: [
+                {
+                    model: User,
+                    as: 'provider',
+                    attributes : ['id','name'],
+                    include : [
+                        {
+                            model: File,
+                            as: 'avatar',
+                            attributes : ['id', 'path', 'url'],
+                        }
+                    ]
+                },
+            ]
+        });
+
+        return res.json(appointments);  
+    
+    }
+
+    async store (req, res) {
 
         const schema = Yup.object().shape({
             provider_id: Yup.number().required(),
             date: Yup.date().required(),
         });
 
-        console.log('pos schema');
-
         if (!(await schema.isValid(req.body))) {
             return res.status(400).json({ error: 'Validation fails' });
         }
-
-        console.log('1');
       
         const { provider_id, date } = req.body;
-
-        console.log('2');
 
         // Check if provider_id is a provider
         const isProvider = await User.findOne({
             where: { id: provider_id, provider: true },
         });
 
-        console.log('3');
-
         if (!isProvider) {
             return res.status(401).json({ error: 'You can only create appointments with providers.' });
         }
 
-        console.log('4');
+        //parseISO converte o campo do obj json em date;
+        //startOfHour pega somente a hora e ignora os minutos
+        const hourStart = startOfHour(parseISO(date));
+
+        if(isBefore(hourStart,new Date())){
+            return res.status(400).json({ error: "Past dates are not permitted" });
+        }
+
+        // Verifica se data para o prestador esta disponivel
+        const dateAvailability = await Appointment.findOne({
+            where: {
+                provider_id,
+                canceled_at: null,
+                date: hourStart,
+            },
+        });
+
+        if (dateAvailability){
+            return res.status(400).json({ error: "Appointment date is not available" });    
+        }
+
+        console.log(req.userId);
+
 
         const appointment = await Appointment.create({
             user_id: req.userId,
             provider_id,
             date,
         });
-
-        console.log('5');
       
         return res.json(appointment);
-
-        console.log('6');
       
     }
 }
