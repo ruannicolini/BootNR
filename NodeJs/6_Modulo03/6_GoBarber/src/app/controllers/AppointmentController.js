@@ -1,9 +1,12 @@
 import * as Yup from 'yup';
-import { startOfHour, parseISO, isBefore } from 'date-fns';
+import { startOfHour, parseISO, isBefore, format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import Appointment from '../models/Appointment';
 import User from '../models/User';
 import File from '../models/File';
-import { async } from '../../../../../../../../../AppData/Local/Microsoft/TypeScript/3.6/node_modules/rxjs/internal/scheduler/async';
+import Notification from '../schemas/Notification';
+
+// import { async } from '../../../../../../../../../AppData/Local/Microsoft/TypeScript/3.6/node_modules/rxjs/internal/scheduler/async';
 
 class AppointmentController{
 
@@ -91,9 +94,29 @@ class AppointmentController{
             provider_id,
             date,
         });
+
+        console.log('1');
+        //Notificação com mongo
+        const user = await User.findByPk(req.userId);
+
+        console.log('2');
+
+        const fomartedDate = format(hourStart, "'dia' dd 'de' MMMM', às' H:mm'h'", {
+        locale: pt,
+        });
+
+        console.log('3');
+
+        await Notification.create({
+        content: `Novo agendamento de ${user.name} para ${fomartedDate}`,
+        user: provider_id,
+        });
       
+        console.log('4');
+
         return res.json(appointment);
       
+        console.log('5');
     }
 }
 
