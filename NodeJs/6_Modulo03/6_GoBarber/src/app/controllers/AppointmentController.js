@@ -95,28 +95,23 @@ class AppointmentController{
             date,
         });
 
-        console.log('1');
         //Notificação com mongo
+        
         const user = await User.findByPk(req.userId);
-
-        console.log('2');
 
         const fomartedDate = format(hourStart, "'dia' dd 'de' MMMM', às' H:mm'h'", {
         locale: pt,
         });
 
-        console.log('3');
-
         await Notification.create({
         content: `Novo agendamento de ${user.name} para ${fomartedDate}`,
         user: provider_id,
         });
-      
-        console.log('4');
 
-        return res.json(appointment);
+        // Fim Notificação com mongo
       
-        console.log('5');
+        return res.json(appointment);
+
     }
 }
 
