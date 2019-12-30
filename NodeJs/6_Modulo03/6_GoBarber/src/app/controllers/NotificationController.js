@@ -24,6 +24,8 @@ class NotificationController {
     }
 
     async update(req, res) {
+
+        // busca o registro e ja atualiza a fiel read para true
         const notification = await Notification.findByIdAndUpdate(
           req.params.id,
           { read: true, },
