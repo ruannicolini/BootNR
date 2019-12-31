@@ -145,16 +145,26 @@ class AppointmentController{
       
           await appointment.save();
 
-          console.log('1');
+          //Envio de email basico
+        //   await Mail.sendMail({
+        //       to: `${appointment.provider.name} <${appointment.provider.email}> `,
+        //       subject: 'Agendamento Cancelado',
+        //       text: 'Você tem um novo cancelamento',
+        //   });
 
-          //Envio de email
+          // Envio de email com template
           await Mail.sendMail({
-              to: `${appointment.provider.name} <${appointment.provider.email}> `,
-              subject: 'Agendamento Cancelado',
-              text: 'Você tem um novo cancelamento',
-          });
-
-          console.log('2');
+            to: `${appointment.provider.name} <${appointment.provider.email}> `,
+            subject: 'Agendamento Cancelado',
+            template: 'cancellation',
+            context: {
+                provider: appointment.provider.name,
+                user: appointment.user.name,
+                date: format(appointment.date, "'dia' dd 'de' MMMM', às' H:mm'h'", {
+                    locale: pt,
+                }),
+            },
+        });
       
           return res.json(appointment);
     }
