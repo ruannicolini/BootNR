@@ -10,3 +10,15 @@ Faz validaçoes
 
 *yarn add multer
 arquivos com formato multipart/form-data
+
+*yarn add date-fns@next
+manipula datas no node. [OBS o @next é para utilizar na versao atual]
+
+* yarn add nodemailer
+envia emails
+
+* yarn add express-handlebars
+integração do express com o handlebars para templaces in jain
+
+* yarn add nodemailer-express-handlebars
+integração do nodemailer com express handlebars
