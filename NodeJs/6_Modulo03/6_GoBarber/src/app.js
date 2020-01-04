@@ -1,3 +1,8 @@
+
+//Carrega as variaveis ambiente definidas no arquivo .env  
+//Essas variáveis podem ser acessadas a partir da variavel global do node "process.env"
+import 'dotenv/config';
+
 import express from 'express';
 import path from 'path';
 import Youch from 'youch';
@@ -41,14 +46,13 @@ class App {
 
     this.server.use(async (err, req, res, next) => {
 
-      // if (process.env.NODE_ENV === 'development') {
-        
+      if (process.env.NODE_ENV === 'development') { 
         const erros = await new Youch(err, req).toJSON();
-
         return res.status(500).json(erros);
-      // }
+      }
 
-      // return res.status(500).json({ error: 'Internal server error.' });
+      return res.status(500).json({ error: 'Internal server error.' });
+      
     });
   }
 
