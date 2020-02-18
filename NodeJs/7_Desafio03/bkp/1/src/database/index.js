@@ -2,9 +2,8 @@ import Sequelize, { DatabaseError } from 'sequelize';
 import databaseConfig from '../config/database';
 import User from '../app/models/User';
 import File from '../app/models/File';
-import Meetup from '../app/models/Meetup';
 
-const models = [User, File, Meetup];
+const models = [User, File];
 
 class Database {
   constructor() {
