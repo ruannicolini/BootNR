@@ -6,10 +6,11 @@ Ferramentas e tecnologias utilizadas:
 
 - Sucrase + Nodemon;
 - ESLint + Prettier + EditorConfig;
-- Sequelize (com PostgresSQL);
+- Sequelize ORM (com PostgresSQL);
 - Para a realização de testes e administração de ambientes foi utilizado a plataforma Docker;
 - Para a autenticação do usuário que é o foco da primeira parte do sistema foi utilizado o JWT (JavaWebToken);
 - Bcryptjs para criptografia de senha do usuário;
+- Yup para validações dos campos de entrada;
 - Youch para tratativa dos erros de uma forma mais detalhada;
 - Sentry para a análise dos erros em ambiente de produção;
 - Bee-Queue e banco de dados Redis (por conta da performance do mesmo) para a tratativa de filas;

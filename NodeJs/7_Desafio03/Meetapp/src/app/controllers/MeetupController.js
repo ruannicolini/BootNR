@@ -1,5 +1,9 @@
 
 import * as Yup from 'yup';
+import { parseISO, isBefore } from 'date-fns';
+import File from '../models/File';
+import User from '../models/User';
+import Meetup from '../models/Meetup';
 
 class MeetupController {
 
@@ -11,17 +15,52 @@ class MeetupController {
             user_id: Yup.number().required(),
             description: Yup.string().required(),
             location: Yup.string().required(),
-            date: Yup.date().required() //.min( new Date )
+            date: Yup.date().required()
         });
 
         if (!(await schema.isValid(req.body))) {
             return res.status(400).json({ error: 'Validation fails' });
         }
 
-        const { user_id, file_id } = req.body;
+        if(isBefore(parseISO(req.body.date), new Date())){
+            return res.status(400).json({error:'Meetup date invalid'});
+        }
 
+        const fileMeetup = await File.findByPk(req.body.file_id);
+        if(!fileMeetup){
+            return res.status(400).json({error:'Invalid File'});    
+        }
 
-        return res.json('oi');
+        const userMeetup = await User.findByPk(req.body.user_id);
+        if(!userMeetup){
+            return res.status(400).json({error:'Invalid User'});    
+        }
+
+        const { 
+            title:vtitle,
+            description:vdescription,
+            location:vlocation,
+            date:vdate,
+            user_id:vuser_id,
+            file_id:vfile_id
+         } = req.body;
+
+        //  console.log('111');
+
+        // const meetup = await Meetup.create({
+        //     title:vtitle,
+        //     description:vdescription,
+        //     location:vlocation,
+        //     date:vdate,
+        //     user_id:vuser_id,
+        //     file_id:vfile_id
+        // });
+
+        // const meetup = await Meetup.create({
+        //     ...req.body
+        // });
+
+        return res.json(meetup);
 
     }
 
