@@ -27,6 +27,6 @@ routes.post('/meetups',MeetupController.store);
 
 routes.put('/users', authMiddleware, UserController.update);
 
-routes.put('/meetups/:id',MeetupController.update);
+routes.put('/meetups/:id', MeetupController.update);
 
 export default routes;

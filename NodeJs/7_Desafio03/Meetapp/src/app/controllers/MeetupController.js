@@ -42,7 +42,58 @@ class MeetupController {
 
     }
 
-    async update(req,res){
+    async update(req, res) {
+
+        // localiza registro
+        const meetup = await Meetup.findByPk(req.params.id);
+        if(!meetup){
+            return res.status(400).json({ error: 'Meetup Not localized' });    
+        }
+
+        //verifica se usuario que esta alterando, criou o registro
+        if( meetup.userId !== req.Id){
+            return res.status(400).json({ error: 'Not authorized' });    
+        }
+
+        // valida nova data
+        if(isBefore(parseISO(meetup.date), new Date())){
+            return res.status(400).json({error:'Meetup date invalid'});
+        }
+
+        // valida alterações
+        const schema = Yup.object().shape({
+            title: Yup.string(),
+            file_id: Yup.number(),
+            user_id: Yup.number(),
+            description: Yup.string(),
+            location: Yup.string(),
+            date: Yup.date()
+        });
+        
+        if (!(await schema.isValid(req.body))) {
+            return res.status(400).json({ error: 'Validation fails' });
+        }
+        
+        // valida nova data
+        if(isBefore(parseISO(req.body.date), new Date())){
+            return res.status(400).json({error:'Meetup date invalid'});
+        }
+
+        // valida FK
+        const fileMeetup = await File.findByPk(req.body.file_id);
+        if(!fileMeetup){
+            return res.status(400).json({error:'Invalid File'});    
+        }
+
+        const userMeetup = await User.findByPk(req.body.user_id);
+        if(!userMeetup){
+            return res.status(400).json({error:'Invalid User'});    
+        }
+
+        // altera registro
+        await meetup.update(req.body);
+
+        return res.json(meetup);
 
     }
 
