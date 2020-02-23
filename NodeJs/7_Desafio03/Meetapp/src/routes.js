@@ -18,15 +18,18 @@ routes.post('/teste', async (req, res, next) => {
 });
 
 routes.post('/users', UserController.store);
-
 routes.post('/session', SessionController.store);
+
+routes.use(authMiddleware);
+
+routes.post('/meetups',MeetupController.store);
+routes.put('/meetups/:id', MeetupController.update);
+routes.delete('/meetups/:id', MeetupController.delete);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
-routes.post('/meetups',MeetupController.store);
-
 routes.put('/users', authMiddleware, UserController.update);
 
-routes.put('/meetups/:id', MeetupController.update);
+
 
 export default routes;

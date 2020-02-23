@@ -51,8 +51,8 @@ class MeetupController {
         }
 
         //verifica se usuario que esta alterando, criou o registro
-        if( meetup.userId !== req.Id){
-            return res.status(400).json({ error: 'Not authorized' });    
+        if( meetup.user_id !== req.userId){
+            return res.status(400).json({ error: 'Update not authorized' });    
         }
 
         // valida nova data
@@ -99,6 +99,24 @@ class MeetupController {
 
     async delete(req,res){
 
+        const meetup = await Meetup.findByPk(req.params.id);
+        if(!meetup){
+            return res.status(400).json({ error: 'Meetup Not localized' });    
+        }
+
+        if( meetup.user_id !== req.userId){
+            return res.status(400).json({ error: 'Delete not authorized (USER)'});    
+        }
+
+        if(isBefore(parseISO(meetup.date), new Date())){
+            return res.status(400).json({error:'Delete not authorized (DATE)'});
+        }
+
+        // delete meetup
+        await meetup.destroy();
+    
+        return res.send();
+        
     }
 }
 
