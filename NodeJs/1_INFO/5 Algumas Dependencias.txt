@@ -26,4 +26,4 @@ integração do nodemailer com express handlebars
 * yarn add bee-queue 
 Ferramenta de fila. porem nao tem prioridade de fila (Nesse caso tem o KUE).
 
-
+"date": "2020-01-05T19:00:00-03:00"

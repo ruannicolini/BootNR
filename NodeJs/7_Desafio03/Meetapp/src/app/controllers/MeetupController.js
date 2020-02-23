@@ -36,29 +36,7 @@ class MeetupController {
             return res.status(400).json({error:'Invalid User'});    
         }
 
-        const { 
-            title:vtitle,
-            description:vdescription,
-            location:vlocation,
-            date:vdate,
-            user_id:vuser_id,
-            file_id:vfile_id
-         } = req.body;
-
-        //  console.log('111');
-
-        // const meetup = await Meetup.create({
-        //     title:vtitle,
-        //     description:vdescription,
-        //     location:vlocation,
-        //     date:vdate,
-        //     user_id:vuser_id,
-        //     file_id:vfile_id
-        // });
-
-        // const meetup = await Meetup.create({
-        //     ...req.body
-        // });
+        const meetup = await Meetup.create(req.body);
 
         return res.json(meetup);
 
