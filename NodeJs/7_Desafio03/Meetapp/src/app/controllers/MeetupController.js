@@ -7,6 +7,32 @@ import Meetup from '../models/Meetup';
 
 class MeetupController {
 
+    async index(req, res){
+
+        const meetups = await Meetup.findAll({
+            where: {
+                user_id : req.userId
+            },
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                    attributes : ['id','name'],
+                    include : [
+                        {
+                            model: File,
+                            as: 'avatar',
+                            attributes : ['id', 'path', 'url'],
+                        }
+                    ]
+                },
+            ]
+        });
+
+        return res.json(meetups);
+
+    }
+
     async store(req, res){
 
         const schema = Yup.object().shape({
@@ -118,6 +144,7 @@ class MeetupController {
         return res.send();
         
     }
+
 }
 
 export default new MeetupController();
