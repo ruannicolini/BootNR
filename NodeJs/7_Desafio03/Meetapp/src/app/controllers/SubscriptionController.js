@@ -1,11 +1,31 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 import User from "../models/User";
 import Meetup from "../models/Meetup";
 import Subscription from "../models/Subscription";
 
 class SubscriptionController {
     async index(req, res) {
-        return res.json('ok');    
+        const subscriptions = await Subscription.findAll({
+            where: {
+                user_id: req.userId,
+            },
+            include: [
+              {
+                model: Meetup,
+                as: 'meetup',
+                where: {
+                  date: {
+                    [Op.gt]: new Date(),
+                  },
+                },
+                required: true,
+              },
+            ],
+            order : [['meetup','date']]
+        });
+      
+        return res.json(subscriptions);
     }
 
     async store(req, res) {
@@ -34,9 +54,9 @@ class SubscriptionController {
             return res.status(400).json({ error: "This meetup doesn't exists" });
         }
 
-        // if (meetup.user_id === req.userId) {
-        //     return res.status(400).json({ error: "Can't subscribe to you own meetups" });
-        // }
+        if (meetup.user_id === req.userId) {
+            return res.status(400).json({ error: "Can't subscribe to you own meetups" });
+        }
       
         if (meetup.past) {
             return res.status(400).json({ error: "Can't subscribe to past meetups" });
@@ -64,7 +84,10 @@ class SubscriptionController {
             user_id: user.id,
             meetup_id: meetup.id,
         });
-  
+
+        // Notificar com um email
+        // ...
+
         return res.json(subscription);
     }
 
