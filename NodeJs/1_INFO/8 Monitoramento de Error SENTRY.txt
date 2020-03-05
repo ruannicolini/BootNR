@@ -2,7 +2,7 @@ Existem e ferramentas principais no node: Sentry e bugsnag.
 
 Utilizaremos o sentry nesse projeto. https://sentry.io/
 
-Por padrão nas requisicoes onde se usa async await o express nao consegue capturar os erros, para resulver isso,
+Por padrão nas requisicoes onde se usa async await o express nao consegue capturar os erros, para resolver isso,
 utilizaremos o express-async-errors. instalação no comando abaixo:
 * yarn add express-async-errors
 
