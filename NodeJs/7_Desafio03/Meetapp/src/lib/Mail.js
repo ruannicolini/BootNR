@@ -16,7 +16,7 @@ class Mail {
         auth: auth.user ? auth : null,
       });
 
-    //   this.configureTemplates();
+      // this.configureTemplates();
   
     }
 
