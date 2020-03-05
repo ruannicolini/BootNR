@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import User from "../models/User";
 import Meetup from "../models/Meetup";
 import Subscription from "../models/Subscription";
+import Mail from "../../lib/Mail";
 
 class SubscriptionController {
     async index(req, res) {
@@ -85,8 +86,16 @@ class SubscriptionController {
             meetup_id: meetup.id,
         });
 
+        console.log('1');
+
         // Notificar com um email
-        // ...
+        await Mail.sendMail({
+            to: `${meetup.title} <${user.email}> `,
+            subject: 'teste',
+            text: 'Você tem um novo cancelamento',
+        });
+
+        console.log('2');
 
         return res.json(subscription);
     }
