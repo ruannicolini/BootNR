@@ -63,6 +63,14 @@ OBS. verifique se o eslint esta instalado nas extensoes do vs code.
         }
     ]
 
+ou para as novas versoes
+"eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
 * No arquivo eslintrc.js, preencha as seguites rules
 rules: {
     "class-methods-use-this": "off",
@@ -73,6 +81,15 @@ rules: {
 
  
 
+========================= prettier =========================
+Prettier faz as alteraçoes recomendadas no eslint de forma automatica ao salvar um arquivo
+* rodar dentro do projeto = yarn add prettier-eslint -D
+* definir o arquivo .prettierrc
+* em ctrl->shift->p >open settings (JSON) adiconar "editor.formatOnSave": true 
+no arquivo.
+
+========================= editorconfig =========================
+é utilizado para estipular o padrao de codigo (sintaxe) do projeto, mesmo que outros devs utilizem outras configuracoes.
 
 
 
