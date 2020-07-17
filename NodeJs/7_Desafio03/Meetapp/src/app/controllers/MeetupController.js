@@ -1,4 +1,3 @@
-
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
 import { isBefore, startOfDay, endOfDay, parseISO } from 'date-fns';
@@ -8,164 +7,152 @@ import User from '../models/User';
 import Meetup from '../models/Meetup';
 
 class MeetupController {
+  async index(req, res) {
+    const where = {};
+    const page = req.query.page || 1;
 
-    async index(req, res){
-
-        const where = {};
-        const page = req.query.page || 1;
-
-        if (req.query.date) {
-            const searchDate = parseISO(req.query.date);  
-            where.date = {
-              [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
-            };
-        }
-
-        if (req.query.page){
-            where.user_id = req.userId;
-        }
-
-        const meetups = await Meetup.findAll({
-            
-            where,
-
-            include: [
-                {
-                    model: User,
-                    as: 'user',
-                    attributes : ['id','name'],
-                    include : [
-                        {
-                            model: File,
-                            as: 'avatar',
-                            attributes : ['id', 'path', 'url'],
-                        }
-                    ]
-                },
-            ],
-
-            limit: 10,
-
-            offset: 10 * page - 10,
-
-        });
-
-        return res.json(meetups);
-
+    if (req.query.date) {
+      const searchDate = parseISO(req.query.date);
+      where.date = {
+        [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
+      };
     }
 
-    async store(req, res){
-
-        const schema = Yup.object().shape({
-            title: Yup.string().required(),
-            file_id: Yup.number().required(),
-            user_id: Yup.number().required(),
-            description: Yup.string().required(),
-            location: Yup.string().required(),
-            date: Yup.date().required()
-        });
-
-        if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({ error: 'Validation fails' });
-        }
-
-        if(isBefore(parseISO(req.body.date), new Date())){
-            return res.status(400).json({error:'Meetup date invalid'});
-        }
-
-        const fileMeetup = await File.findByPk(req.body.file_id);
-        if(!fileMeetup){
-            return res.status(400).json({error:'Invalid File'});    
-        }
-
-        const userMeetup = await User.findByPk(req.body.user_id);
-        if(!userMeetup){
-            return res.status(400).json({error:'Invalid User'});    
-        }
-
-        const meetup = await Meetup.create(req.body);
-
-        return res.json(meetup);
-
+    if (req.query.page) {
+      where.user_id = req.userId;
     }
 
-    async update(req, res) {
+    const meetups = await Meetup.findAll({
+      where,
 
-        // localiza registro
-        const meetup = await Meetup.findByPk(req.params.id);
-        if(!meetup){
-            return res.status(400).json({ error: 'Meetup Not localized' });    
-        }
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name'],
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'path', 'url'],
+            },
+          ],
+        },
+      ],
 
-        //verifica se usuario que esta alterando, criou o registro
-        if( meetup.user_id !== req.userId){
-            return res.status(400).json({ error: 'Update not authorized' });    
-        }
+      limit: 10,
 
-        // valida nova data
-        if(isBefore(parseISO(meetup.date), new Date())){
-            return res.status(400).json({error:'Meetup date invalid'});
-        }
+      offset: 10 * page - 10,
+    });
 
-        // valida alterações
-        const schema = Yup.object().shape({
-            title: Yup.string(),
-            file_id: Yup.number(),
-            user_id: Yup.number(),
-            description: Yup.string(),
-            location: Yup.string(),
-            date: Yup.date()
-        });
-        
-        if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({ error: 'Validation fails' });
-        }
-        
-        // valida nova data
-        if(isBefore(parseISO(req.body.date), new Date())){
-            return res.status(400).json({error:'Meetup date invalid'});
-        }
+    return res.json(meetups);
+  }
 
-        // valida FK
-        const fileMeetup = await File.findByPk(req.body.file_id);
-        if(!fileMeetup){
-            return res.status(400).json({error:'Invalid File'});    
-        }
+  async store(req, res) {
+    const schema = Yup.object().shape({
+      title: Yup.string().required(),
+      file_id: Yup.number().required(),
+      user_id: Yup.number().required(),
+      description: Yup.string().required(),
+      location: Yup.string().required(),
+      date: Yup.date().required(),
+    });
 
-        const userMeetup = await User.findByPk(req.body.user_id);
-        if(!userMeetup){
-            return res.status(400).json({error:'Invalid User'});    
-        }
-
-        // altera registro
-        await meetup.update(req.body);
-
-        return res.json(meetup);
-
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
     }
 
-    async delete(req,res){
-
-        const meetup = await Meetup.findByPk(req.params.id);
-        if(!meetup){
-            return res.status(400).json({ error: 'Meetup Not localized' });    
-        }
-
-        if( meetup.user_id !== req.userId){
-            return res.status(400).json({ error: 'Delete not authorized (USER)'});    
-        }
-
-        if(isBefore(parseISO(meetup.date), new Date())){
-            return res.status(400).json({error:'Delete not authorized (DATE)'});
-        }
-
-        // delete meetup
-        await meetup.destroy();
-    
-        return res.send();
-        
+    if (isBefore(parseISO(req.body.date), new Date())) {
+      return res.status(400).json({ error: 'Meetup date invalid' });
     }
 
+    const fileMeetup = await File.findByPk(req.body.file_id);
+    if (!fileMeetup) {
+      return res.status(400).json({ error: 'Invalid File' });
+    }
+
+    const userMeetup = await User.findByPk(req.body.user_id);
+    if (!userMeetup) {
+      return res.status(400).json({ error: 'Invalid User' });
+    }
+
+    const meetup = await Meetup.create(req.body);
+
+    return res.json(meetup);
+  }
+
+  async update(req, res) {
+    // localiza registro
+    const meetup = await Meetup.findByPk(req.params.id);
+    if (!meetup) {
+      return res.status(400).json({ error: 'Meetup Not localized' });
+    }
+
+    //verifica se usuario que esta alterando, criou o registro
+    if (meetup.user_id !== req.userId) {
+      return res.status(400).json({ error: 'Update not authorized' });
+    }
+
+    // valida nova data
+    if (isBefore(parseISO(meetup.date), new Date())) {
+      return res.status(400).json({ error: 'Meetup date invalid' });
+    }
+
+    // valida alterações
+    const schema = Yup.object().shape({
+      title: Yup.string(),
+      file_id: Yup.number(),
+      user_id: Yup.number(),
+      description: Yup.string(),
+      location: Yup.string(),
+      date: Yup.date(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    // valida nova data
+    if (isBefore(parseISO(req.body.date), new Date())) {
+      return res.status(400).json({ error: 'Meetup date invalid' });
+    }
+
+    // valida FK
+    const fileMeetup = await File.findByPk(req.body.file_id);
+    if (!fileMeetup) {
+      return res.status(400).json({ error: 'Invalid File' });
+    }
+
+    const userMeetup = await User.findByPk(req.body.user_id);
+    if (!userMeetup) {
+      return res.status(400).json({ error: 'Invalid User' });
+    }
+
+    // altera registro
+    await meetup.update(req.body);
+
+    return res.json(meetup);
+  }
+
+  async delete(req, res) {
+    const meetup = await Meetup.findByPk(req.params.id);
+    if (!meetup) {
+      return res.status(400).json({ error: 'Meetup Not localized' });
+    }
+
+    if (meetup.user_id !== req.userId) {
+      return res.status(400).json({ error: 'Delete not authorized (USER)' });
+    }
+
+    if (isBefore(parseISO(meetup.date), new Date())) {
+      return res.status(400).json({ error: 'Delete not authorized (DATE)' });
+    }
+
+    // delete meetup
+    await meetup.destroy();
+
+    return res.send();
+  }
 }
 
 export default new MeetupController();
