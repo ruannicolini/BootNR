@@ -1,0 +1,36 @@
+const path = require("path");
+
+module.exports = {
+  //primeiro arquivo executado na aplicacao
+  entry: path.resolve(__dirname, "src", "index.js"),
+
+  //arquivo que sera gerado apos a transpilacao
+  output: {
+    path: path.resolve(__dirname, "public"),
+    filename: "bundle.js",
+  },
+
+  //webpack server
+  devServer: {
+  	//Direotrio que contem os arquivos publicos da aplicacao
+    contentBase: path.resolve(__dirname, "public"),
+  },
+
+  // add regras de loader
+  module: {
+    rules: [
+       {
+       // irá transpilar apelas os arquivos terminador em .js
+         test: /\.js$/,
+
+         // não transpila node_modules
+         exclude: /node_modules/,
+
+         // irá transpilar utilizando o loader do babel
+         use: {
+           loader: "babel-loader",
+         },
+       },
+    ],
+  },
+};

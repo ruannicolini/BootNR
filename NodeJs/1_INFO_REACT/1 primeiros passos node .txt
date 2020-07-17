@@ -1,0 +1,79 @@
+* Abrir o locar do arquivo pelo prompt;
+
+* COMANDO = yarn init -y
+OBJETIVO = CRIA O ARQUIVO PACKAGE.JSON
+
+
+========= dentro do vs code, no projeto, abra o terminal.
+
+* COMANDO = yarn add @babel/core -D
+OBJETIVO = transpilar o codigo mais atualizado para um codigo que o browser entenda
+
+* COMANDO = yarn add @babel/preset-env -D
+OBJETIVO = Verifica quais funcionalidades o ambiente da aplicação(browser) ainda nao entende e converte o codigo para que possa ser entendido. 
+Cada ambiente de execucao pode ter demandas diferentes de transpilação. Por default ele utiliza as  ultimas versoes dos browsers
+
+* COMANDO = yarn add @babel/preset-react -D
+OBJETIVO = Adiciona as funcionalidades do react na conversao do babel (html dentro do javascript).
+
+* COMANDO = yarn add webpack -D
+OBJETIVO = arquivos do tipo js o babel transpila, porem dentro do arquivo js nos conseguimos importar outros aquivos (.css, png, etc).
+o webpack esses converte de uma maneira diferente utilizando loaders, inclusive do proprio babel.
+
+* COMANDO = yarn add webpack-cli -D
+OBJETIVO = .
+
+* COMANDO = yarn add react react-dom
+OBJETIVO = instalacao da biblioteca react e a integracao do react com a dom
+
+* COMANDO = yarn add webpack-cli -D
+OBJETIVO = interface de linha de comando. utilizaremos para chamar o transpilador babel
+
+=============================
+
+* cria pasta src e uma pasta public na raiz do projeto
+
+* cria arquivo babel.config.js na raiz do projeto
+OBJETIVO = configura o babel (a maneira como o codigo js é convertido de forma que o browser entenda)
+
+* configuracao de presets. Presets sao conjunto de instruções de conversao criados por terceiros e que pdoemos aproveitar na aplicação!
+CONTEUDO DO ARQUIVO babel.config.js
+
+module.exports = {
+  presets: ["@babel/preset-env", "@babel/preset-react"],
+};
+
+* COMANDO = yarn babel src/index.js --out-file public/bundle.js
+OBJETIVO = comando para o babel transpilar o codigo js
+
+* cria arquivo webpack.config.js na raiz do projeto
+
+* COMANDO = yarn add babel-loader
+OBJETIVO = instalar loader do babel
+
+* COMANDO = yarn add webpack-dev-server -D
+OBJETIVO = instala o servidor de desenvolvimento do webpack para monitorar as mudanças no código e transpilar novamente
+
+* add tag devServer no arquivo webpack.config.js.
+  devServer: {
+    contentBase: path.resolve(__dirname, "public"),
+  },
+
+* COMANDO = yarn webpack --mode development
+OBJETIVO = webpack converte os arquivos pro bundle.js
+
+* COMANDO = yarn webpack-dev-server --mode development
+OBJETIVO = roda o dev-server que ficará ouvindo as alterações no codigo 
+
+=============================
+
+* COMANDO = yarn add style-loader css-loader
+OBJETIVO = loader para css
+
+* COMANDO = yarn add file-loader
+OBJETIVO = utilizado para carregar arquivos dentro da aplicação
+
+
+
+
+

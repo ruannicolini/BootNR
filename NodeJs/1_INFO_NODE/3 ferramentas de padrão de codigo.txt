@@ -1,0 +1,95 @@
+
+
+== INSTALL ESLINT ==
+* COMANDO = yarn add eslint -D
+OBJETIVO  = Faz o lint do codigo. Ou seja, verifica se o codigo esta seguindo os padrões estipulados.
+
+* COMANDO = yarn eslint --init
+OBJETIVO  = Inicializa e cria um arquivo de configuração.
+
+* PERGUNTAS QUE APARECEM NO PROMPT[
+How wold you like to use Eslint?
+R= to check syntax, find problems, and enforce code style
+
+what type of modules does your project use? // qual o padrao de codigo? ( import e expost? require da commonJS?)
+R= Javascript modules (import/export);
+
+Which framework does your project use? // o projeto vai utilizar react ou vue?
+R= None of these;
+
+Does your project use typescript?
+R= n
+
+where does your code run? 
+Desmarque "browser" utilizando a barra de espaço e selecione node.
+
+How wold you like to define a style for your project?
+R= Use a popular style guide.
+R= Airbnb;
+
+what format do you want your config file to be in?
+R= javascript
+
+wold you like to install them now with npm?
+R= y
+];
+
+*Apesar de estarmos utilizando o yarn no nosso projeto, Note na ultima pergunta que o eslint é instalado via npm.
+Então podemos deletar o arquivo "package-lock.json" e rodar o comando "yarn" na pasta do projeto pra ele fazer o mapeamento das novas dependencias
+no yarn.lock
+
+*Note que foi criado o arquivo eslintrc.js no projeto e é aqui que faremos as principais configurações do lint de codigo.
+OBS. verifique se o eslint esta instalado nas extensoes do vs code.
+
+* no arquivo de configuração do vs code (crtl+shift+p -> settings json), devemos ter o seguinte codigo informado
+//ESLINT
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+        {
+            "language": "javascript",
+            "autoFix": true
+        },
+        {
+            "language": "javascriptreact",
+            "autoFix": true
+        },
+        {
+            "language": "typescript",
+            "autoFix": true
+        },
+        {
+            "language": "typescriptreact",
+            "autoFix": true
+        }
+    ]
+
+ou para as novas versoes
+"eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+* No arquivo eslintrc.js, preencha as seguites rules
+rules: {
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off",
+    "camelcase": "off",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
+  }
+
+ 
+
+========================= prettier =========================
+Prettier faz as alteraçoes recomendadas no eslint de forma automatica ao salvar um arquivo
+* rodar dentro do projeto = yarn add prettier-eslint -D
+* definir o arquivo .prettierrc
+* em ctrl->shift->p >open settings (JSON) adiconar "editor.formatOnSave": true 
+no arquivo.
+
+========================= editorconfig =========================
+é utilizado para estipular o padrao de codigo (sintaxe) do projeto, mesmo que outros devs utilizem outras configuracoes.
+
+
+

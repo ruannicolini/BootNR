@@ -1,0 +1,9 @@
+
+* Docker
+docker run --name mongobarber -p 27017:27017 -d -t mongo
+
+* Para conferir se o docker mongoDB foi criado basta abrir no navegador
+localhost:27017
+
+* yarn add mongoose
+Insere dependencia do odc

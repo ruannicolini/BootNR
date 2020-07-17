@@ -1,0 +1,54 @@
+* Abrir o locar do arquivo pelo prompt;
+
+* COMANDO = yarn init -y
+OBJETIVO = CRIA O ARQUIVO PACKAGE.JSON
+
+* COMANDO = code .
+OBJETIVO = ABRIR O VS CODE NA PARTA SELECIONADA.
+
+========= dentro do vs code, no projeto, abra o terminal.
+* COMANDO = yarn add express
+OBJETIVO = INSTALA UM MICROFRAME DO NODE
+
+* Crie o arquivo index.js
+
+* para rodar o servidor utilize: "node index.js";
+
+* COMANDO = yarn add nodemon -D
+OBJETIVO = instala a dependência nodemon, que restarta o servidor sempre que o codigo for modificado.
+OBS = "-D" pa so vai ser instalada em modo de desenvolvimento, não na aplicação real.
+
+* Adicione o seguinte codigo no arquivo package.json;
+"scripts": {
+    "dev": "nodemon index.js"
+},
+
+* agora ao inves de usar "node index.js", utilizaremos "yarn dev". que abre o servidor com o nodemon.
+
+* COMANDO = yarn add sucrase -D
+OBJETIVO = Existem algumas funcionalidades mais recentes do javascript que o node ainda nao suporta, como por exemplo
+o import e export utilizados pelo react( ao inves do require, da comandjs). Para utilizar a nova sintaxe podemos adicionar algumas bibliotecas 
+como o sucrase, babel ou babel node. Utilizaremos o sucrase por se destacar na velocidade.   
+* Para rodar o servidor utilizamos o comando yarn sucrase-node src/server.js
+* porem, para utilizar o nodemon, devemos criar um arquivo de configuração "nodemon.json" na raiz do projeto
+{
+  "execMap": {
+    "js": "sucrase-node"
+  }
+}
+Esse arquivo de finguração diz que quando executar arquivo "JS", ao invez do comando node,
+utilize o comando "sucrase-node"
+
+
+
+
+
+============= OBS ===================
+* Quando pegar um projeto ja feito, 
+basta usar o comando "yarn" que ja instala as dependencias.
+
+
+
+
+
+

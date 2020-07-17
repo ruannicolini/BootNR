@@ -1,4 +1,0 @@
-
-* yarn add dotenv
-habilita o node a utilizar as variaveis ambiente definidas no arquivo .env  
-Essas variáveis podem ser acessadas a partir da variavel global do node "process.env"
