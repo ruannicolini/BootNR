@@ -73,6 +73,11 @@ OBJETIVO = loader para css
 * COMANDO = yarn add file-loader
 OBJETIVO = utilizado para carregar arquivos dentro da aplicação
 
+* COMANDO = yarn add axios
+OBJETIVO = Faz as chamadas a API do backend
+
+* COMANDO = yarn add axiosyarn add @babel/plugin-transform-runtime -D
+OBJETIVO = Por padrao o @babel/preset-env nao entende requisicoes com async await,
 
 
 

@@ -27,3 +27,7 @@ integração do nodemailer com express handlebars
 Ferramenta de fila. porem nao tem prioridade de fila (Nesse caso tem o KUE).
 
 "date": "2020-01-05T19:00:00-03:00"
+
+* yarn add cors
+cors define qual endereço poderá requerer alguma rota da nossa aplicação
+A configuracao esta disponível no server
