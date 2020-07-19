@@ -1,0 +1,15 @@
+
+* COMANDO = react-native init nomeProjeto
+OBJETIVO = Cria o repositório do projeto pelo prompt.
+
+* COMANDO = react-native run-android
+OBJETIVO = Faz o builder do app para o emulador
+
+* crie uma pasta src
+* crie o arquivo index.js dentro de src
+* apague o arquivo App.js na raiz do projeto
+* abra o arquivo index.js na raiz do projeto e troque a referecia [import App from "./App";] por [import App from "./src";]
+
+* COMANDO = yarn add axios
+OBJETIVO = Consumir dados de API
+
