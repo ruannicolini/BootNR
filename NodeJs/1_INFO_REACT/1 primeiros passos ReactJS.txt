@@ -1,8 +1,12 @@
+
+=============================
+
+-- Passo a passo para criar um projeto do zero
+
 * Abrir o locar do arquivo pelo prompt;
 
 * COMANDO = yarn init -y
 OBJETIVO = CRIA O ARQUIVO PACKAGE.JSON
-
 
 ========= dentro do vs code, no projeto, abra o terminal.
 
@@ -23,13 +27,15 @@ o webpack esses converte de uma maneira diferente utilizando loaders, inclusive 
 * COMANDO = yarn add webpack-cli -D
 OBJETIVO = .
 
+=============================
+
+-- Passo a passo para configurar um projeto do zero
+
 * COMANDO = yarn add react react-dom
 OBJETIVO = instalacao da biblioteca react e a integracao do react com a dom
 
 * COMANDO = yarn add webpack-cli -D
 OBJETIVO = interface de linha de comando. utilizaremos para chamar o transpilador babel
-
-=============================
 
 * cria pasta src e uma pasta public na raiz do projeto
 
@@ -65,8 +71,6 @@ OBJETIVO = webpack converte os arquivos pro bundle.js
 * COMANDO = yarn webpack-dev-server --mode development
 OBJETIVO = roda o dev-server que ficará ouvindo as alterações no codigo 
 
-=============================
-
 * COMANDO = yarn add style-loader css-loader
 OBJETIVO = loader para css
 
@@ -78,6 +82,89 @@ OBJETIVO = Faz as chamadas a API do backend
 
 * COMANDO = yarn add axiosyarn add @babel/plugin-transform-runtime -D
 OBJETIVO = Por padrao o @babel/preset-env nao entende requisicoes com async await,
+
+
+******************************************************************************************
+
+* COMANDO = yarn global add create-react-app
+OBJETIVO = instala o create-react-app global na maquina
+
+******************************************************************************************
+
+--Passo a passo para criar um novo projeto com create-react-app
+
+* COMANDO = react-react-app nome-projeto --template=typescript
+OBJETIVO = cria um novo projeto ja configurado, utilizando typescript
+
+* cria o arquivo .editorconfig clicando com o botao direito sobre o panel explorer -> generate .editorconfig
+** altere as seguintes linhas
+	trim_trailing_whitespace = true
+	insert_final_newline = true
+** adicione a seguinte linha
+	end_of_line = lf
+
+
+* COMANDO = yarn add eslint -D
+OBJETIVO = instala eslint no projeto
+
+* retire o seguinte codigo do arquivo package.json
+"eslintConfig": {
+    "extends": "react-app"
+  },
+
+
+* COMANDO = yarn eslint --init
+OBJETIVO = inicializa o eslint
+** selecione to check syntax, find problems, end enforce code style
+** selecione javascript modules (import/export)
+** selecione React
+** Does you project use typescript? Y
+** Browser
+** use a popular style guide
+** Airbnb
+** What format do you want your config file to be in? JSON
+** Would you like to install them now with npm? NO
+
+ATENÇÃO = Como estamos utilizando o yarn, note que bem acima da questao (Would you like to install them now with npm? NO) o terminal
+mostra uma sequencia de bibliotecas. copie todas, retire todas as versoes do eslint"^... 
+e nas bibliotecas que possuem mais de uma opcao de instalacao com (||) deixe apenas a primeira. 
+copie essa edicao e instale utilizando o comando
+yarn add TODAS_BIBLIOTECAS_EDITADAS -D 
+
+* crie o arquivo .eslintignore
+**/*.js
+node_modules
+build
+
+* no arquivo .eslintrc.json, item "extends" adicione "plugin:@typescript-eslint/recommended"
+* no arquivo .eslintrc.json, item "plugins" adicione "react-hooks"
+* no arquivo .eslintrc.json, item "rules" adicione "react-hooks/rules-of-hooks": "error", "react-hooks/exhaustive": "warn", 
+"react/jsx-filename-extension": [1, { "extensions:": [".tsx"] }], "import/prefer-default-export": "off"
+
+
+*COMANDO = yarn add eslint-import-resolver-typescript -D
+OBJETIVO  = Faz com que o react possa entender arquivos typescript nas importacoes
+
+* adicione o seguinte codigo ao arquivo .eslintrc.json
+"settings": {
+        "import/resolver": {
+            "typescript": {}
+        }
+    }
+
+*COMANDO = yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+OBJETIVO  = Instala o prettier
+
+* no arquivo .eslintrc.json, item "extends" adicione "prettier/@typescript-eslint", "plugin:prettier/recommended"
+* no arquivo .eslintrc.json, item "plugins" adicione "prettier"
+* no arquivo .eslintrc.json, item "rules" adicione "prettier/prettier": "error",
+
+* crie o arquivo prettier.config.js na pasta do projeto
+
+
+
+
+
 
 
 

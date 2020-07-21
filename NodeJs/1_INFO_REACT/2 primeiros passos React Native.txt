@@ -13,3 +13,5 @@ OBJETIVO = Faz o builder do app para o emulador
 * COMANDO = yarn add axios
 OBJETIVO = Consumir dados de API
 
+
+
