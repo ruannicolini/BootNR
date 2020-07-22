@@ -161,6 +161,29 @@ OBJETIVO  = Instala o prettier
 
 * crie o arquivo prettier.config.js na pasta do projeto
 
+*COMANDO = yarn add react-router-dom
+OBJETIVO  = Rotas na aplicação.
+
+*COMANDO = yarn add @types/react-router-dom -D
+OBJETIVO = Definicao de tipos do react-router-dom
+
+*COMANDO = yarn add styled-components
+OBJETIVO = Isola o css em componentes
+
+*COMANDO = yarn add @types/styled-components -D
+OBJETIVO = Isola o css em componentes
+
+*COMANDO = yarn add polished
+OBJETIVO = ferramentas interessantes para trabalhar com cores
+
+*COMANDO = yarn add react-icons
+OBJETIVO = Icones do react
+
+
+
+
+
+
 
 
 
