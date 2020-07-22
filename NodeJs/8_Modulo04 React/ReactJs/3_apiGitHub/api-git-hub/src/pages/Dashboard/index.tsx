@@ -1,69 +1,62 @@
-import React from 'react';
+import React, { useState, FormEvent } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 
+import api from '../../services/api';
 import { Title, Form, Repositories } from './styles';
 import logoImg from '../../assets/logo.svg';
 
+interface Repository {
+  full_name: string;
+  description: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+  };
+}
+
 const Dashboard: React.FC = () => {
-    return (
-        <>
-            <img src={logoImg} alt="Github Explorer" />
-            <Title>Explore repositórios no GitHub</Title>
-            <Form>
-                <input placeholder="Digite o nome do repositório" />
-                <button type="submit">Pesquisar</button>
-            </Form>
+  const [newRepo, setNewRepo] = useState('');
+  const [repositories, setRepositories] = useState<Repository[]>([]);
 
-            <Repositories>
-                <a href="teste">
-                    <img
-                        src="https://avatars2.githubusercontent.com/u/6893004?s=460&u=8ecddc66048cb8a1813e1c480fd04af22ed6a047&v=4"
-                        alt="Ruan Nicolini"
-                    />
-                    <div>
-                        <strong>BootNR</strong>
-                        <p>
-                            Repositório para estudo do NodeJs, React e React
-                            Native
-                        </p>
-                    </div>
-                    <FiChevronRight size={20} />
-                </a>
+  async function handleAddRepository(
+    event: FormEvent<HTMLFormElement>,
+  ): Promise<void> {
+    event.preventDefault();
 
-                <a href="teste">
-                    <img
-                        src="https://avatars2.githubusercontent.com/u/6893004?s=460&u=8ecddc66048cb8a1813e1c480fd04af22ed6a047&v=4"
-                        alt="Ruan Nicolini"
-                    />
-                    <div>
-                        <strong>BootNR</strong>
-                        <p>
-                            Repositório para estudo do NodeJs, React e React
-                            Native
-                        </p>
-                    </div>
-                    <FiChevronRight size={20} />
-                </a>
+    const response = await api.get<Repository>(`repos/${newRepo}`);
+    const repository = response.data;
+    setRepositories([...repositories, repository]);
+    setNewRepo('');
+  }
 
-                <a href="teste">
-                    <img
-                        src="https://avatars2.githubusercontent.com/u/6893004?s=460&u=8ecddc66048cb8a1813e1c480fd04af22ed6a047&v=4"
-                        alt="Ruan Nicolini"
-                    />
-                    <div>
-                        <strong>BootNR</strong>
-                        <p>
-                            Repositório para estudo do NodeJs, React e React
-                            Native
-                        </p>
-                    </div>
-                    <FiChevronRight size={20} />
-                </a>
-            </Repositories>
+  return (
+    <>
+      <img src={logoImg} alt="Github Explorer" />
+      <Title>Explore repositórios no GitHub</Title>
 
-            <Repositories></Repositories>
-        </>
-    );
+      <Form onSubmit={handleAddRepository}>
+        <input
+          value={newRepo}
+          onChange={(e) => setNewRepo(e.target.value)}
+          placeholder="Digite o nome do repositório"
+        />
+        <button type="submit">Pesquisar</button>
+      </Form>
+
+      <Repositories>
+        {repositories.map((rep) => (
+          <a key={rep.full_name} href="teste">
+            <img src={rep.owner.avatar_url} alt={rep.owner.login} />
+            <div>
+              <strong>{rep.full_name}</strong>
+              <p>{rep.description}</p>
+            </div>
+            <FiChevronRight size={20} />
+          </a>
+        ))}
+      </Repositories>
+    </>
+  );
 };
 
 export default Dashboard;

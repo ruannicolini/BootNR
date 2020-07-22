@@ -179,6 +179,8 @@ OBJETIVO = ferramentas interessantes para trabalhar com cores
 *COMANDO = yarn add react-icons
 OBJETIVO = Icones do react
 
+* COMANDO = yarn add axios
+OBJETIVO = Faz as chamadas a API do backend
 
 
 
