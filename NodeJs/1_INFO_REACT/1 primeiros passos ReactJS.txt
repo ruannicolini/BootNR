@@ -138,8 +138,8 @@ build
 
 * no arquivo .eslintrc.json, item "extends" adicione "plugin:@typescript-eslint/recommended"
 * no arquivo .eslintrc.json, item "plugins" adicione "react-hooks"
-* no arquivo .eslintrc.json, item "rules" adicione "react-hooks/rules-of-hooks": "error", "react-hooks/exhaustive": "warn", 
-"react/jsx-filename-extension": [1, { "extensions:": [".tsx"] }], "import/prefer-default-export": "off"
+* no arquivo .eslintrc.json, item "rules" adicione "react-hooks/rules-of-hooks": "error", "react-hooks/exhaustive-deps": "warn",
+"react/jsx-filename-extension": [1, { "extensions": [".tsx"] }], "import/prefer-default-export": "off"
 
 
 *COMANDO = yarn add eslint-import-resolver-typescript -D
