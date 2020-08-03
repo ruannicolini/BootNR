@@ -8,6 +8,7 @@ export const Container = styled.div`
   display: flex;
   align-items: stretch;
 `;
+
 export const Content = styled.div`
   /* background: #fff; */
   display: flex;
