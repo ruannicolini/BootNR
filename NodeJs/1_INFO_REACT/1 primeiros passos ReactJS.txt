@@ -182,6 +182,11 @@ OBJETIVO = Icones do react
 * COMANDO = yarn add axios
 OBJETIVO = Faz as chamadas a API do backend
 
+* COMANDO = yarn add @unform/core @unform/web
+OBJETIVO = Biblioteca da rocketseat para resolver problemas de performace do react. 
+No caso, quando atrelamos um estado a um componente, o react atualiza esse componente a casa vez que o estado sofre uma alteracao.
+Como por exemplo no input, que sera reinderizado a cada vez que o usuario digitar uma letra dentro dele.
+
 
 
 
